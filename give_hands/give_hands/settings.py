@@ -126,4 +126,8 @@ STATIC_URL = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'pass_things.User'
+# AUTHENTICATION_BACKENDS = ['pass_things.backends.EmailBackend']
+LOGIN_REDIRECT_URL = '/'
+

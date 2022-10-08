@@ -253,3 +253,70 @@ document.addEventListener("DOMContentLoaded", function() {
     new FormSteps(form);
   }
 });
+
+// function SubmitRegisterForm() {
+//     // alert('cos')
+//     let name = document.querySelector("#name").value;
+//     let surname = document.querySelector("#surname").value;
+//     let email = document.querySelector("#email").value;
+//     let password = document.querySelector("#password").value;
+//     let password2 = document.querySelector("#password2").value;
+//
+//     alert(name)
+//     sendRegister(name,surname,email,password,password2);
+// }
+
+// function SubmitRegisterForm() {
+//     let formButton = document.querySelector("#register");
+//     formButton.onclick = function (e) {
+//     let name = document.querySelector("#name").value;
+//     let surname = document.querySelector("#surname").value;
+//     let email = document.querySelector("#email").value;
+//     let password = document.querySelector("#password").value;
+//     let password2 = document.querySelector("#password2").value;
+//     alert(name)
+//     sendRegister(name,surname,email,password,password2);
+//
+//     // sendMetar(metarCode);
+//     //e.preventDefault();
+//     //getMetar(metarCode);
+//     };
+// }
+
+// let formButton = document.querySelector("#register");
+// When the button is clicked,
+// formButton.onClick = function(e) {
+//     // do NOT send the form the usual way
+//     e.preventDefault();
+//     let name = document.querySelector("#name").value;
+//     let surname = document.querySelector("#surname").value;
+//     let email = document.querySelector("#email").value;
+//     let password = document.querySelector("#password").value;
+//     let password2 = document.querySelector("#password2").value;
+//     alert(name);
+//
+//     // let metarCode = document.querySelector("#metar-value").value;
+//
+//     // Run the function that will send the code to the ToolsPageView
+//     sendMetar(name);
+// }
+//
+//
+// async function sendMetar(name) {
+//     const response = await fetch('/register', {
+//        method: "POST",
+//        headers: {
+//          "X-CSRFToken": getCookie("csrftoken"),
+//        },
+//        body: JSON.stringify({
+//           'name': name,
+//        }),
+//      })
+//      .then(response => response.json())
+//      .then(data => {
+//        console.log(data);
+//        // extract the decoded value from the data sent back from the view
+//        // display it by targeting the element in your html that you want
+//        // to display it
+//      });
+//  }

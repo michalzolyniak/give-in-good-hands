@@ -11,11 +11,23 @@
   <body>
       <header class="header--main-page">
         <nav class="container container--70">
-          <ul class="nav--actions">
-            <li><a href="" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a href="#" class="btn btn--small btn--highlighted">Załóż konto</a></li>
-          </ul>
-
+          {% if user.email %}
+            <ul class="nav--actions">
+            <li class="logged-user">
+              Witaj {{ user.email }}
+              <ul class="dropdown">
+                <li><a href="#">Profil</a></li>
+                <li><a href="#">Ustawienia</a></li>
+                <li><a href="{% url 'logout' %}">Wyloguj</a></li>
+              </ul>
+            </li>
+            </ul>
+          {% else %}
+            <ul class="nav--actions">
+              <li><a href="{% url 'login' %}" class="btn btn--small btn--without-border">Zaloguj</a></li>
+              <li><a href="{% url 'register' %}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+            </ul>
+          {% endif %}
           <ul>
             <li><a href="" class="btn btn--without-border active">Start</a></li>
             <li><a href="#steps" class="btn btn--without-border">O co chodzi?</a></li>
@@ -38,8 +50,8 @@
 
       {% block content%}
       {% endblock %}
-  </body>
-  <footer>
+
+      <footer>
       <div class="contact">
         <h2>Skontaktuj się z nami</h2>
         <h3>Formularz kontaktowy</h3>
@@ -73,5 +85,6 @@
         </div>
       </div>
     </footer>
-
+    <script src="{% static 'pass_things/js/app.js' %}"></script>
+  </body>
 </html>
