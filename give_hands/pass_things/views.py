@@ -6,6 +6,8 @@ from .forms import LoginForm, RegisterForm
 from django.urls import reverse_lazy
 from django.views.generic import RedirectView
 from django.views.generic import FormView
+from django.db.models import Sum, Count
+from .models import Donation
 
 User = get_user_model()
 
@@ -56,9 +58,27 @@ class LoginView(FormView):
         return render(request, 'pass_things/login.html', context)
 
 
+class LogoutView(RedirectView):
+    """
+        Logout view
+    """
+    url = reverse_lazy('login')
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return super().get(request, *args, **kwargs)
+
+
 class LandingPage(View):
     def get(self, request):
-        return render(request, "pass_things/index.html")
+        count_bags = Donation.objects.aggregate(Sum('quantity'))
+        count_bags = count_bags['quantity__sum']
+        count_organization = Donation.objects.values('institution').distinct().count()
+        context = {'count_bags': count_bags,
+                   'count_organization':count_organization}
+        return render(request, "pass_things/index.html",
+                      context)
+
 
 
 class AddDonation(View):
@@ -66,23 +86,3 @@ class AddDonation(View):
         return render(request, "pass_things/form.html")
 
 
-class LogoutView(RedirectView):
-    """
-        Logout view
-    """
-    url = reverse_lazy('login')
-
-    def get(self, request, *args, **kwargs):
-        logout(request)
-        return super().get(request, *args, **kwargs)
-
-
-class LogoutView(RedirectView):
-    """
-        Logout view
-    """
-    url = reverse_lazy('login')
-
-    def get(self, request, *args, **kwargs):
-        logout(request)
-        return super().get(request, *args, **kwargs)

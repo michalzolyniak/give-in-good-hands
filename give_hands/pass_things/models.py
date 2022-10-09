@@ -3,6 +3,10 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+import datetime
+import time
+
+
 
 FOUNDATION = 1
 NONGOVERORG = 2
@@ -84,3 +88,25 @@ class Donation(models.Model):
     pick_up_time = models.TimeField()
     pick_up_comment = models.TextField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+
+
+def add_category():
+    c = Category(name="test")
+    c.save()
+
+
+def add_institution():
+    i = Institution(name="Kosciol Polski", description="test instition",
+                    type=1)
+    i.save()
+    i.category.add(1)
+
+
+def add_donation():
+    u = User.objects.get(pk=1)
+    i = Institution.objects.get(pk=1)
+    d = Donation(quantity=3, institution=i, address="Narutowicza", phone_number="509-214-447", city="Szczecinek",
+                 zip_code="78-400", pick_up_date=datetime.datetime.now(), pick_up_time=datetime.time(),
+                 pick_up_comment="test test", user=u)
+    d.save()
+
