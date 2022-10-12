@@ -234,7 +234,25 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
+
       // TODO: get data from inputs and show them in summary
+      // if (this.currentStep == 5)
+      // {
+      //   var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+      //   var array = []
+      //   for (var i = 0; i < checkboxes.length; i++) {
+      //     array.push(checkboxes[i].value)
+      //   }
+      //   alert(this.$form);
+      //
+      //   // let what_give = document.querySelector('[name="categories"]:checked')
+      //   // for (let i = 0; i < what_give.length; ++i) {
+      //   //     alert("test before")
+      //   //     console.log(what_give[i].value)
+      //   //     // tagArray.push(element[i].tagName);
+      //   // }
+      // };
+
     }
 
     /**
@@ -244,6 +262,13 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     submit(e) {
       e.preventDefault();
+      if (this.currentStep == 5)
+      {
+        alert("submit test");
+        SubmitRegisterForm()
+        // sendMetar("name")
+      };
+
       this.currentStep++;
       this.updateForm();
     }
@@ -254,69 +279,90 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-// function SubmitRegisterForm() {
-//     // alert('cos')
-//     let name = document.querySelector("#name").value;
-//     let surname = document.querySelector("#surname").value;
-//     let email = document.querySelector("#email").value;
-//     let password = document.querySelector("#password").value;
-//     let password2 = document.querySelector("#password2").value;
+// // donation_data.onclick = function () { alert('did stuff #1'); };
 //
-//     alert(name)
-//     sendRegister(name,surname,email,password,password2);
-// }
+// // var donation_data = document.getElementById('donation_data');
+// // donation_data.addEventListener("click", myFunction);
+//
+// // function myFunction() {
+// //   var what_give = document.getElementById('what_give');
+// //   what_give.innerHTML = "cos";
+// / /   alert('did stuff #1');
+// // };
 
-// function SubmitRegisterForm() {
-//     let formButton = document.querySelector("#register");
-//     formButton.onclick = function (e) {
-//     let name = document.querySelector("#name").value;
-//     let surname = document.querySelector("#surname").value;
-//     let email = document.querySelector("#email").value;
-//     let password = document.querySelector("#password").value;
-//     let password2 = document.querySelector("#password2").value;
-//     alert(name)
-//     sendRegister(name,surname,email,password,password2);
-//
-//     // sendMetar(metarCode);
-//     //e.preventDefault();
-//     //getMetar(metarCode);
-//     };
-// }
 
-// let formButton = document.querySelector("#register");
-// When the button is clicked,
-// formButton.onClick = function(e) {
-//     // do NOT send the form the usual way
-//     e.preventDefault();
-//     let name = document.querySelector("#name").value;
-//     let surname = document.querySelector("#surname").value;
-//     let email = document.querySelector("#email").value;
-//     let password = document.querySelector("#password").value;
-//     let password2 = document.querySelector("#password2").value;
-//     alert(name);
+function SubmitRegisterForm() {
+
+    // alert('cos')
+    // let name = document.querySelector("#name").value;
+    // let surname = document.querySelector("#surname").value;
+    // let email = document.querySelector("#email").value;
+    // let password = document.querySelector("#password").value;
+    // let password2 = document.querySelector("#password2").value;
+
+    sendMetar('cos')
+    // sendData();
+}
+
+
+// function sendData(){
 //
-//     // let metarCode = document.querySelector("#metar-value").value;
+//   name = "xxx";
+//   // email = document.getElementById("email").value
+//   // subject = document.getElementById("subject").value
 //
-//     // Run the function that will send the code to the ToolsPageView
-//     sendMetar(name);
-// }
-//
-//
-// async function sendMetar(name) {
-//     const response = await fetch('/register', {
-//        method: "POST",
-//        headers: {
-//          "X-CSRFToken": getCookie("csrftoken"),
-//        },
-//        body: JSON.stringify({
-//           'name': name,
-//        }),
-//      })
-//      .then(response => response.json())
-//      .then(data => {
-//        console.log(data);
-//        // extract the decoded value from the data sent back from the view
-//        // display it by targeting the element in your html that you want
-//        // to display it
-//      });
-//  }
+//   const formData = new FormData();
+//   console.log(name);
+//   formData.append('name', name);
+//   // formData.append('email', email);
+//   // formData.append('subject', subject);
+//   formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+//   console.log(formData);
+//   fetch('{% url "add_donation" %}', {
+//     method: 'POST',
+//     body: formData
+//   })
+//   .then(response => response.json())
+//   .then(data => {
+//     console.log('Success:', data);
+//   })
+//   .catch(error => {
+//     console.error('Error:', error);
+//   });
+//   };
+
+
+async function sendMetar(name) {
+  const formData = new FormData();
+  formData.append('name', 'xxx');
+
+  const response = await fetch('/add_donation', {
+       method: "POST",
+       headers: {
+         "X-CSRFToken": getCookie("csrftoken"),
+       },
+       body: formData,
+     })
+     .then(response => response.json())
+     .then(data => {
+       console.log(data);
+       // extract the decoded value from the data sent back from the view
+       // display it by targeting the element in your html that you want
+       // to display it
+     });
+ }
+
+ function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
