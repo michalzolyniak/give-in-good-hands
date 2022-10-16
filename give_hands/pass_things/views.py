@@ -11,6 +11,7 @@ from django.views.generic import FormView
 from django.db.models import Sum, Count
 from django.http import JsonResponse
 from .models import Donation, Category, Institution
+import datetime
 
 User = get_user_model()
 
@@ -81,32 +82,9 @@ class LandingPage(View):
         count_bags = count_bags['quantity__sum']
         count_organization = Donation.objects.values('institution').distinct().count()
         context = {'count_bags': count_bags,
-                   'count_organization':count_organization}
+                   'count_organization': count_organization}
         return render(request, "pass_things/index.html",
                       context)
-
-        context = {'form': form}
-        # if form.is_valid():
-        #     cd = form.cleaned_data
-        #     breakpoint()
-        #     print(cd['name'])
-        #     # User.objects.create_user(
-        #     #     first_name=cd['name'],
-        #     #     last_name=cd['surname'],
-        #     #     email=cd['email'],
-        #     #     password=cd['password'],
-        #     # )
-        #
-        #     return redirect('login')
-
-
-# u = User.objects.get(pk=1)
-#     i = Institution.objects.get(pk=1)
-#     d = Donation(quantity=3, institution=i, address="Narutowicza", phone_number="509-214-447", city="Szczecinek",
-#                  zip_code="78-400", pick_up_date=datetime.datetime.now(), pick_up_time=datetime.time(),
-#                  pick_up_comment="test test", user=u)
-#     d.save()
-
 
 
 class AddDonation(LoginRequiredMixin, View):
@@ -119,7 +97,37 @@ class AddDonation(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         data = dict(request.POST)
-        metarCode = data['name']
-        breakpoint()
-        return JsonResponse({'MetarCode': metarCode})
+        quantity = int(data['bags'][0])
+        institution = data['organization'][0]
+        institution = Institution.objects.get(pk=int(institution))
+        address = data['address'][0]
+        phone_number = data['phone'][0]
+        city = data['city'][0]
+        zip_code = data['postcode'][0]
+        pick_up_date = data['data'][0]
+        pick_up_time = data['time'][0]
+        pick_up_comment = data['more_info'][0]
+        user = request.user
+        categories_to_add = data['categories']
+        donation = Donation.objects.create(
+            quantity=quantity,
+            institution=institution,
+            address=address,
+            phone_number=phone_number,
+            city=city,
+            zip_code=zip_code,
+            pick_up_date=pick_up_date,
+            pick_up_time=pick_up_time,
+            pick_up_comment=pick_up_comment,
+            user=user
+        )
 
+        for category in categories_to_add:
+            donation.categories.add(category)
+
+        return JsonResponse({'response': 'ok'})
+
+
+class ConfirmationView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, "pass_things/form-confirmation.html")
