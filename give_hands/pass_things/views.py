@@ -124,10 +124,20 @@ class AddDonation(LoginRequiredMixin, View):
 
         for category in categories_to_add:
             donation.categories.add(category)
-
+        #forms.errors
         return JsonResponse({'response': 'ok'})
 
 
 class ConfirmationView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, "pass_things/form-confirmation.html")
+
+
+class UserView(LoginRequiredMixin, View):
+    def get(self, request):
+        user = request.user
+        donations = Donation.objects.filter(user=user)
+        bags = donations.aggregate(Sum('quantity'))
+        bags = bags['quantity__sum']
+        context = {'user': user, 'bags': bags}
+        return render(request, "pass_things/user.html", context)

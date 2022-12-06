@@ -1,0 +1,18 @@
+{% extends 'pass_things/base.html' %}
+{% load static %}
+
+{% block content %}
+     <div class="steps--container">
+         <p>First Name: {{ user.first_name}}</p>
+    </div>
+    <div class="steps--container">
+        <p>Last Name: {{ user.last_name}}</p>
+    </div>
+    <div class="steps--container">
+        <p>Email: {{ user.email}}</p>
+    </div>
+    <div class="steps--container">
+        <p>Bags: {{ bags }}</p>
+    </div>
+{% endblock %}
+

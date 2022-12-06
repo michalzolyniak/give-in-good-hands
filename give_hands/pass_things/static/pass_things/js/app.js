@@ -300,9 +300,13 @@ async function sendRegisterForm(form) {
     })
         .then(response => response.json())
         .then(data => {
+            //success
             window.location.href = '/confirmation'
+            //<>success error
+
             // console.log(data);
-        });
+        })
+    //execpt;
 }
 
 function getCookie(name) {

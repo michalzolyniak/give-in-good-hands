@@ -74,6 +74,10 @@ class Institution(models.Model):
     type = models.IntegerField(default=FOUNDATION, choices=TYPE)
     category = models.ManyToManyField(Category)
 
+    def __str__(self):
+        return self.name
+
+
 
 class Donation(models.Model):
     quantity = models.IntegerField()
